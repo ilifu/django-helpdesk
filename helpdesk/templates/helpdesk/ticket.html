@@ -183,43 +183,45 @@
                     {% for followup in ticket.followup_set.all|dictsortreversed:"date" %}
                         <div class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">{{ followup.title|escape|num_to_link }}</h5>
+                                <h5 class="mb-1">{{ followup.title|escape|num_to_link }}&nbsp;<a class="btn btn-primary" data-toggle="collapse" href="#followup{{ forloop.counter }}" role="button" aria-expanded="{% if forloop.counter < 3 %}true{% else %}false{% endif %}" aria-controls="followup{{ forloop.counter }}"><i class="fas fa-plus-circle"></i></a></h5>
                                 <small><i class="fas fa-clock"></i>&nbsp;<span class='byline text-info'>{% if followup.user %}by {{ followup.user }},{% endif %} <span title='{{ followup.date|date:"DATETIME_FORMAT" }}'>{{ followup.date|naturaltime }}</span>{% if helpdesk_settings.HELPDESK_ENABLE_TIME_SPENT_ON_TICKET %}{% if followup.time_spent %}{% endif %}, <span>{% trans "time spent" %}: {{ followup.time_spent_formated }}</span>{% endif %} {% if not followup.public %} <span class='private'>({% trans "Private" %})</span>{% endif %}</span></small>
                             </div>
-                            <p class="mb-1">
-                                {% if followup.comment %}
-                                    <p>{{ followup.get_markdown|urlizetrunc:50|num_to_link }}</p>
-                                {% endif %}
-                                {% for change in followup.ticketchange_set.all %}
-                                    {% if forloop.first %}<div class='changes'><ul>{% endif %}
-                                    <li>{% blocktrans with change.field as field and change.old_value as old_value and change.new_value as new_value %}Changed {{ field }} from {{ old_value }} to {{ new_value }}.{% endblocktrans %}</li>
-                                    {% if forloop.last %}</ul></div>{% endif %}
-                                {% endfor %}
-                                {% if helpdesk_settings.HELPDESK_ENABLE_ATTACHMENTS %}
-                                    {% for attachment in followup.followupattachment_set.all %}{% if forloop.first %}{% trans "Attachments" %}:<div class='attachments'><ul>{% endif %}
-                                    <li><a href='{{ attachment.file.url }}'>{{ attachment.filename }}</a> ({{ attachment.mime_type }}, {{ attachment.size|filesizeformat }})
-                                        {% if followup.user and request.user == followup.user %}
-                                    <a href='{% url 'helpdesk:attachment_del' ticket.id attachment.id %}'><button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></a>
-                                        {% endif %}
-                                    </li>
+                            <div id="followup{{ forloop.counter }}" class="collapse{% if forloop.counter < 3 %} show{% endif %}">
+                                <p class="mb-1">
+                                    {% if followup.comment %}
+                                        <p>{{ followup.get_markdown|urlizetrunc:50|num_to_link }}</p>
+                                    {% endif %}
+                                    {% for change in followup.ticketchange_set.all %}
+                                        {% if forloop.first %}<div class='changes'><ul>{% endif %}
+                                        <li>{% blocktrans with change.field as field and change.old_value as old_value and change.new_value as new_value %}Changed {{ field }} from {{ old_value }} to {{ new_value }}.{% endblocktrans %}</li>
                                         {% if forloop.last %}</ul></div>{% endif %}
                                     {% endfor %}
-                                {% endif %}
-                            </p>
-                            <!--- ugly long test to suppress the following if it will be empty, to save vertical space -->
-                            {% with possible=helpdesk_settings.HELPDESK_SHOW_EDIT_BUTTON_FOLLOW_UP %}
-                                {% if  possible and followup.user and request.user == followup.user and not followup.ticketchange_set.all or  possible and user.is_superuser and helpdesk_settings.HELPDESK_SHOW_DELETE_BUTTON_SUPERUSER_FOLLOW_UP %}
-                                <small>
-                                    {% if helpdesk_settings.HELPDESK_SHOW_EDIT_BUTTON_FOLLOW_UP %}
-                                        {% if followup.user and request.user == followup.user and not followup.ticketchange_set.all %}
-                                        <a href="{% url 'helpdesk:followup_edit' ticket.id followup.id %}" class='followup-edit'><button type="button" class="btn btn-warning btn-sm float-right"><i class="fas fa-edit"></i></button></a>
+                                    {% if helpdesk_settings.HELPDESK_ENABLE_ATTACHMENTS %}
+                                        {% for attachment in followup.followupattachment_set.all %}{% if forloop.first %}{% trans "Attachments" %}:<div class='attachments'><ul>{% endif %}
+                                        <li><a href='{{ attachment.file.url }}'>{{ attachment.filename }}</a> ({{ attachment.mime_type }}, {{ attachment.size|filesizeformat }})
+                                            {% if followup.user and request.user == followup.user %}
+                                        <a href='{% url 'helpdesk:attachment_del' ticket.id attachment.id %}'><button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></a>
+                                            {% endif %}
+                                        </li>
+                                            {% if forloop.last %}</ul></div>{% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                </p>
+                                <!--- ugly long test to suppress the following if it will be empty, to save vertical space -->
+                                {% with possible=helpdesk_settings.HELPDESK_SHOW_EDIT_BUTTON_FOLLOW_UP %}
+                                    {% if  possible and followup.user and request.user == followup.user and not followup.ticketchange_set.all or  possible and user.is_superuser and helpdesk_settings.HELPDESK_SHOW_DELETE_BUTTON_SUPERUSER_FOLLOW_UP %}
+                                    <small>
+                                        {% if helpdesk_settings.HELPDESK_SHOW_EDIT_BUTTON_FOLLOW_UP %}
+                                            {% if followup.user and request.user == followup.user and not followup.ticketchange_set.all %}
+                                            <a href="{% url 'helpdesk:followup_edit' ticket.id followup.id %}" class='followup-edit'><button type="button" class="btn btn-warning btn-sm float-right"><i class="fas fa-edit"></i></button></a>
+                                            {% endif %}
                                         {% endif %}
-                                    {% endif %}
-                                    {% if user.is_superuser and helpdesk_settings.HELPDESK_SHOW_DELETE_BUTTON_SUPERUSER_FOLLOW_UP %}
-                                        <a href="{% url 'helpdesk:followup_delete' ticket.id followup.id %}" class='followup-edit'><button type="button" class="btn btn-warning btn-sm float-right"><i class="fas fa-trash"></i></button></a>
-                                    {% endif %}
-                                </small>
-                            {% endif %}{% endwith %}
+                                        {% if user.is_superuser and helpdesk_settings.HELPDESK_SHOW_DELETE_BUTTON_SUPERUSER_FOLLOW_UP %}
+                                            <a href="{% url 'helpdesk:followup_delete' ticket.id followup.id %}" class='followup-edit'><button type="button" class="btn btn-warning btn-sm float-right"><i class="fas fa-trash"></i></button></a>
+                                        {% endif %}
+                                    </small>
+                                {% endif %}{% endwith %}
+                            </div>
                         </div>
                         <!-- /.list-group-item -->
                     {% endfor %}
