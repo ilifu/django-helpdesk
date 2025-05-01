@@ -1,28 +1,7 @@
-from collections import OrderedDict
-from datetime import date, timedelta
 from logging import getLogger
-from typing import Optional, Tuple, Union
 
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import AbstractUser, UserManager as AbstractUserManager, Group
-from django.core.cache import cache
 from django.db import models
-from django.db.models import Avg, Count, ExpressionWrapper, F, Sum
-from django.db.models.functions import (
-    Ceil,
-    ExtractDay,
-    ExtractMonth,
-    ExtractWeek,
-    ExtractYear,
-    Greatest,
-    TruncDay,
-    TruncHour,
-    TruncMonth,
-    TruncMonth,
-    TruncWeek,
-)
-from django.utils import timezone
-from django.utils.functional import cached_property
 
 logger = getLogger()
 

@@ -34,9 +34,18 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.humanize',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'helpdesk',
+    'bootstrap4form',
+    'mozilla_django_oidc',
+    'rest_framework',
+
+    'ilifu',
 ]
 
 MIDDLEWARE = [
@@ -47,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'mozilla_django_oidc.middleware.SessionRefresh',
 ]
 
 ROOT_URLCONF = 'ilifu_helpdesk.urls'
@@ -61,6 +71,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -79,6 +90,11 @@ DATABASES = {
     }
 }
 
+AUTHENTICATION_BACKENDS = (
+    # 'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
+    'ilifu.KeycloakOIDCAuthenticationBackend.KeycloakOIDCAuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',  # default
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -104,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Johannesburg'
 
 USE_I18N = True
 
@@ -120,3 +136,14 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+HELPDESK_TEAMS_MODE_ENABLED = False
+SITE_ID = 1
+
+HELPDESK_STAFF_ONLY_TICKET_OWNERS = True
+HELPDESK_STAFF_ONLY_TICKET_CC = True
+HELPDESK_SUBMIT_A_TICKET_PUBLIC = False
+HELPDESK_ANON_ACCESS_RAISES_404 = True
+HELPDESK_REDIRECT_TO_LOGIN_BY_DEFAULT = True
+HELPDESK_VALIDATE_ATTACHMENT_TYPES = False
+
