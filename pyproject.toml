@@ -1,2 +1,15 @@
-[tool.ruff]
-ignore = ["E501", "E731", "F841", "E721"]
+[project]
+name = "ilifu-helpdesk"
+version = "0.1.0"
+description = "Django Helpdesk used by ilifu"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "django-helpdesk",
+    "gunicorn>=23.0.0",
+    "mozilla-django-oidc>=4.0.1",
+    "psycopg2-binary>=2.9.10",
+]
+
+[tool.uv.sources]
+django-helpdesk = { git = "https://github.com/ilifu/django-helpdesk" }
