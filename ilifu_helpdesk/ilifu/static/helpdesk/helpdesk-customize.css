@@ -60,3 +60,7 @@ footer .link-list a .link-text {
 footer .info {
     text-align: center;
 }
+
+table tbody .tickettitle {
+    max-width: 650px;
+}
