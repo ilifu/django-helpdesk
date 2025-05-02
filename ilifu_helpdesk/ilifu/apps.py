@@ -10,14 +10,10 @@ class IlifuConfig(AppConfig):
     name = 'ilifu'
 
     def ready(self):
-        # Import the target model and your custom function *inside* ready()
         try:
             from helpdesk.models import FollowUp
-            from .utils import custom_followup_display # Import your new function
+            from .utils import custom_followup_display
 
-            # --- Monkey-patch FollowUp.get_markdown ---
-            # Note: We are replacing a method on the class instance here.
-            # The function needs to accept 'self' (the followup_instance).
             FollowUp.get_markdown = custom_followup_display
             logger.info("Successfully monkey-patched helpdesk.models.FollowUp.get_markdown")
 

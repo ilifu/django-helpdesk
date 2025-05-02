@@ -88,7 +88,6 @@ def custom_followup_display(followup_instance: FollowUp):
         # if followup_instance.comment:
         #    iframe_html += f"<hr><small>Original Comment Text:</small><div>{linebreaks(escape(followup_instance.comment))}</div>"
         safe_text = mark_safe(iframe_html)
-        print(safe_text)
         return safe_text
     else:
         # No specific attachment found, or failed to read/decode content, return plain text comment
@@ -97,3 +96,4 @@ def custom_followup_display(followup_instance: FollowUp):
             return mark_safe(plain_text_html)
         else:
             return ""
+
