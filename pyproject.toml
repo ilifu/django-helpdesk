@@ -16,5 +16,6 @@ django-helpdesk = { git = "https://github.com/ilifu/django-helpdesk" }
 
 [dependency-groups]
 dev = [
+    "django-debug-toolbar>=5.2.0",
     "pytest>=8.3.5",
 ]
