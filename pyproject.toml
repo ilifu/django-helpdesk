@@ -1,3 +1,22 @@
-[tool.ruff]
-[tool.ruff.lint]
-ignore = []
+[project]
+name = "ilifu-helpdesk"
+version = "0.1.0"
+description = "Django Helpdesk used by ilifu"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "django-helpdesk",
+    "gunicorn>=23.0.0",
+    "mozilla-django-oidc>=4.0.1",
+    "psycopg2-binary>=2.9.10",
+]
+
+[tool.uv.sources]
+django-helpdesk = { git = "https://github.com/ilifu/django-helpdesk" }
+
+[dependency-groups]
+dev = [
+    "django-debug-toolbar>=5.2.0",
+    "pytest>=8.3.5",
+]
+

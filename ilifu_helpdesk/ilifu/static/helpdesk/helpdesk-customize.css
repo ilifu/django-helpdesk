@@ -1,0 +1,67 @@
+:root {
+  --lightblue: #009ada;
+  --darkblue: #00355e;
+  --white-menu-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.bg-dark {
+    background-color: var(--darkblue) !important;
+}
+
+footer {
+    background-color: var(--darkblue);
+    color: white;
+    font-size: smaller;
+}
+
+.footer link-list {
+    background-color: transparent;
+    margin: 0 5%;
+}
+
+.footer .list-group-item {
+    border-top-right-radius: 0!important;
+    border-bottom-right-radius: 0!important;
+    border-top-left-radius: 0!important;
+    border-bottom-left-radius: 0!important;
+}
+
+footer .list-group-item.list-group-item-action {
+    border: none;
+    background-color: transparent;
+    color: white;
+}
+
+footer .list-group-item.list-group-item-action:hover {
+    background-color: var(--lightblue);
+    color: white;
+}
+
+footer .list-group-item.list-group-item-action:focus {
+    background-color: var(--darkblue);
+    color: white;
+    box-shadow: 0 0 0 5px var(--lightblue) inset;
+    outline: none;
+}
+
+footer .list-group-item.list-group-item-action:active, footer .list-group-item.list-group-item-action:hover:focus {
+    background-color: var(--lightblue);
+    color: white;
+}
+
+footer .link-list a .link-label {
+    font-weight: bold;
+}
+
+footer .link-list a .link-text {
+    font-family: monospace;
+}
+
+footer .info {
+    text-align: center;
+}
+
+table tbody .tickettitle {
+    max-width: 650px;
+}
+
