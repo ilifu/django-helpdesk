@@ -23,9 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-h)1swr#g+r+q(we(ls4!8n%oljdd(w&25ncyh)e-xh2nzqpat9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
+DJANGO_DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+INTERNAL_IPS = ['127.0.0.1']
 
 
 # Application definition
@@ -40,12 +43,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'helpdesk',
+
     'bootstrap4form',
-    'mozilla_django_oidc',
+    # 'mozilla_django_oidc',
     'rest_framework',
 
     'ilifu',
+    'helpdesk',
+
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
@@ -56,7 +62,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'mozilla_django_oidc.middleware.SessionRefresh',
+    # 'mozilla_django_oidc.middleware.SessionRefresh',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'ilifu_helpdesk.urls'
@@ -83,16 +90,32 @@ WSGI_APPLICATION = 'ilifu_helpdesk.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'helpdesk_dev',
+        'USER': 'helpdesk',
+        'PASSWORD': 'abcde12345',
+        'HOST': 'localhost',
+        'PORT': '5432',
+        'CONN_MAX_AGE': 60,
+        'CONN_HEALTH_CHECKS': True,
+        'DISABLE_SERVER_SIDE_CURSORS': True,
     }
 }
 
+# ALLOWED_HOSTS = ['127.0.0.1']
+
 AUTHENTICATION_BACKENDS = (
     # 'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
-    'ilifu.KeycloakOIDCAuthenticationBackend.KeycloakOIDCAuthenticationBackend',
+    # 'ilifu.KeycloakOIDCAuthenticationBackend.KeycloakOIDCAuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',  # default
 )
 
@@ -131,6 +154,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/var/www/helpdesk/media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
