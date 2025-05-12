@@ -23,15 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-h)1swr#g+r+q(we(ls4!8n%oljdd(w&25ncyh)e-xh2nzqpat9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 DJANGO_DEBUG = False
-
-ALLOWED_HOSTS = ['*']
-
-INTERNAL_IPS = ['127.0.0.1']
-
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -51,7 +44,7 @@ INSTALLED_APPS = [
     'ilifu',
     'helpdesk',
 
-    "debug_toolbar",
+#    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
@@ -63,7 +56,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # 'mozilla_django_oidc.middleware.SessionRefresh',
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+#    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'ilifu_helpdesk.urls'
@@ -85,7 +78,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'ilifu_helpdesk.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -114,8 +106,6 @@ DATABASES = {
 # ALLOWED_HOSTS = ['127.0.0.1']
 
 AUTHENTICATION_BACKENDS = (
-    # 'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
-    # 'ilifu.KeycloakOIDCAuthenticationBackend.KeycloakOIDCAuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',  # default
 )
 
@@ -171,4 +161,3 @@ HELPDESK_SUBMIT_A_TICKET_PUBLIC = False
 HELPDESK_ANON_ACCESS_RAISES_404 = True
 HELPDESK_REDIRECT_TO_LOGIN_BY_DEFAULT = True
 HELPDESK_VALIDATE_ATTACHMENT_TYPES = False
-

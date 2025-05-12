@@ -1,0 +1,112 @@
+from .common import *
+
+SECRET_KEY = ''
+
+if not SECRET_KEY:
+    print('Remember to set the secret key')
+    exit(1)
+
+DEBUG = False
+DJANGO_DEBUG = False
+
+ALLOWED_HOSTS = ['helpdesk.ilifu.ac.za']
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ilifu_helpdesk',
+        'USER': 'helpdesk',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '5432',
+        'CONN_MAX_AGE': 60,
+        'CONN_HEALTH_CHECKS': True,
+        'DISABLE_SERVER_SIDE_CURSORS': True,
+    }
+}
+
+if not DATABASES['default']['PASSWORD']:
+    print('Remember to set database password')
+    exit(1)
+
+AUTHENTICATION_BACKENDS = (
+#    'ilifu.KeycloakOIDCAuthenticationBackend.KeycloakOIDCAuthenticationBackend',  # For prod this should be enabled…
+    'django.contrib.auth.backends.ModelBackend',  # default
+)
+
+LOGIN_URL = 'login/'
+LOGIN_REDIRECT_URL = 'https://helpdesk.ilifu.ac.za/'
+LOGOUT_REDIRECT_URL = 'https://helpdesk.ilifu.ac.za/kb'
+
+OIDC_RENEW_ID_TOKEN_EXPIRY_SECONDS = 60 * 60 * 24  # 24 hours
+OIDC_RP_SIGN_ALGO = 'RS256'
+OIDC_ENDPOINT = 'https://login.idia.ac.za/realms/idia'
+
+OIDC_OP_AUTHORIZATION_ENDPOINT = f'{ OIDC_ENDPOINT }/protocol/openid-connect/auth'
+OIDC_OP_TOKEN_ENDPOINT = f'{ OIDC_ENDPOINT }/protocol/openid-connect/token'
+OIDC_OP_USER_ENDPOINT = f'{ OIDC_ENDPOINT }/protocol/openid-connect/userinfo'
+
+OIDC_OP_JWKS_ENDPOINT = f'{ OIDC_ENDPOINT }/protocol/openid-connect/certs'
+
+OIDC_OP_LOGOUT_URL_METHOD = 'ilifu.views.oidc_logout_url'
+OIDC_RP_CLIENT_ID = 'helpdesk-ilifu'
+OIDC_RP_CLIENT_SECRET = 'tvn2MLE5cqYvn1nccuNMqv5xFUi58Gx1'
+
+OIDC_CREATE_USER = True
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "root": {"level": "INFO", "handlers": ["file"]},
+    "handlers": {
+        "file": {
+            "level": "INFO",
+            "class": "logging.handlers.RotatingFileHandler",
+            "maxBytes": 1024 * 1024 * 100,  # 100 MB
+            "backupCount": 10,
+            "filename": "/var/log/helpdesk/helpdesk.log",
+            "formatter": "app",
+        },
+        "oidc_file": {
+            "level": "INFO",
+            "class": "logging.handlers.RotatingFileHandler",
+            "maxBytes": 1024 * 1024 * 50,  # 50 MB
+            "backupCount": 5,
+            "filename": "/var/log/helpdesk/oidc.log",
+            "formatter": "app",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["file"],
+            "level": "INFO",
+            "propagate": True
+        },
+        'mozilla_django_oidc': {
+            'handlers': ['file'],
+            'level': 'INFO'
+        },
+    },
+    "formatters": {
+        "app": {
+            "format": (
+                u"%(asctime)s [%(levelname)-8s] "
+                "(%(module)s.%(funcName)s) %(message)s"
+            ),
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+        },
+    },
+}
+
+STATIC_URL = '/static/'
+STATIC_ROOT='/var/www/helpdesk/static'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/var/www/helpdesk/media'
+
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'support@ilifu.ac.za'
+
+DEFAULT_FILE_STORAGE = None
