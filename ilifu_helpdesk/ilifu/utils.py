@@ -70,7 +70,6 @@ def custom_followup_display(followup_instance: FollowUp):
 
         # Escape the HTML content *before* putting it in the srcdoc attribute
         escaped_html_content = escape(html_content.strip())
-        print(escaped_html_content)
 
         # The fallback link still uses the original file URL
         fallback_link_url = escape(iframe_url) if iframe_url else "#"
