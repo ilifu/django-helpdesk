@@ -5,6 +5,7 @@ description = "Django Helpdesk used by ilifu"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "django>=5.2",
     "django-helpdesk",
     "gunicorn>=23.0.0",
     "mozilla-django-oidc>=4.0.1",
