@@ -20,19 +20,19 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-# from debug_toolbar.toolbar import debug_toolbar_urls
-
-
 from .views import login, logout
+from ilifu.views import dashboard
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('oidc/', include('mozilla_django_oidc.urls')),
     path('login/', login, name='login'),
     path('logout/', logout, name='logout'),
+    path('dashboard/', dashboard, name='dashboard'),
     path('', include('helpdesk.urls', namespace='helpdesk')),
 ]
 
 if settings.DEBUG:
-        urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-        urlpatterns += debug_toolbar_urls()
+    from debug_toolbar.toolbar import debug_toolbar_urls
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += debug_toolbar_urls()
