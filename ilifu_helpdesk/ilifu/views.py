@@ -75,7 +75,7 @@ def dashboard(request):
         ],
     ).order_by('-modified')
 
-    recent_activity_tickets = Ticket.objects.all().select_related("queue").order_by('-modified')[:100]
+    recent_activity_tickets = Ticket.objects.all().select_related("queue").order_by('-modified')
 
     user_queues = huser.get_queues()
 
