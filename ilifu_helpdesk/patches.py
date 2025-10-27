@@ -29,7 +29,7 @@ def patched_as_bytes(self, unixfrom=False, *args, **kwargs):
     except UnicodeEncodeError as e:
         logger.warning(
             f"UnicodeEncodeError when serializing MIME part: {e}. "
-            "Attempting fallback with surrogateescape error handling."
+            "Attempting fallback with UTF-8 encoding policy."
         )
         # Fallback: try with utf-8 encoding
         try:
