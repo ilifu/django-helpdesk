@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 
+# Apply patches for django-helpdesk compatibility
+try:
+    import patches as _patches  # noqa: F401
+except ImportError:
+    pass
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
